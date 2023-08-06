@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronometre</title>
+    <style>
+        @font-face {
+            font-family: lera;
+            src: url('digital-7.ttf');
+        }
+        body{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 90vh;
+            width: 99vw;
+            background-color: rgb(132, 177, 228);
+        }
+        div.box1{
+            width: 400px;
+            height: 300px;
+            border-radius: 20px;
+            box-shadow: -10px 10px 20px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        div.box2{
+            width: 440px;
+            height: 70px;
+            box-shadow: 10px 10px 20px;
+            border-radius: 20px;
+            background-color: rgb(50, 129, 233);
+            position: relative;
+            left: -20px;
+            top: -50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        div.box3{
+            width: 400px;
+            display: flex;
+            justify-content: space-around;
+        }
+        button{
+            border: solid 2px #3281EB;
+            border-radius: 10px;
+            font-size: 19px;
+            box-shadow: 2px 2px 20px;
+            height: 40px;
+            background-color: #fff;
+            color: #3281EB;
+        }
+        i{
+            font-family: lera;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>Chronometre</h1>
+        <div class="box1">
+            <div class="box2">
+                <i id="heure_chro">00</i>:
+                <i id="minute_chro">00</i>:
+                <i id="seconde_chro">00</i>:
+                <i id="milleseconde">00</i>
+            </div>
+            <div class="box3">
+                <button id="pause">Pause</button>
+                <button id="start">Start</button>
+                <button id="reset">Reset</button>
+            </div>
+        </div>
+    </nav>
+    <nav>
+        <h1>Alarme</h1>
+        <div class="box1">
+            <div class="box2">
+                <i id="heure"></i>:
+                <i id="minute"></i>:
+                <i id="seconde"></i>
+            </div>
+            <div class="box3">
+                <button id="pause">Pause</button>
+                <button id="start">Start</button>
+                <button id="reset">Reset</button>
+            </div>
+        </div>
+    </nav>
+    <script>
+        var any;
+        window.onload = function(){
+            var start = document.getElementById('start');
+            var reset = document.getElementById('reset');
+            var pause = document.getElementById('pause');
+            reset.addEventListener("click",miverina);
+            pause.addEventListener("click",mijanona);
+            start.addEventListener("click",mande);
+            setInterval(plus_lera,1000);
+            var now = new Date();
+            var heure_inst   = now.getHours();
+            var minute_inst  = now.getMinutes();
+            var seconde_inst = now.getSeconds();
+            
+            document.getElementById('heure').innerHTML = heure_inst;
+            document.getElementById('minute').innerHTML = minute_inst;
+            document.getElementById('seconde').innerHTML = seconde_inst;
+        }
+        function mande(){
+            any = setInterval(plus,10);
+            document.getElementById('start').style.backgroundColor = '#3281EB';
+            document.getElementById('start').style.color = '#000';
+            document.getElementById('pause').style.color = '#3281EB';
+            document.getElementById('reset').style.backgroundColor = '#fff';
+            document.getElementById('pause').style.backgroundColor = '#fff';
+        }
+
+        function mijanona(){
+            clearInterval(any);
+            document.getElementById('pause').style.backgroundColor = '#3281EB';
+            document.getElementById('pause').style.color = '#000';
+            document.getElementById('start').style.color = '#3281EB';
+            document.getElementById('start').style.backgroundColor = '#fff';
+            document.getElementById('reset').style.backgroundColor = '#fff';
+        }
+
+        function miverina(){
+            clearInterval(any);
+            document.getElementById('seconde_chro').innerHTML = "00";
+            document.getElementById('minute_chro').innerHTML = "00";           
+            document.getElementById('heure_chro').innerHTML = "00";
+            document.getElementById('reset').style.backgroundColor = '#fff';
+            document.getElementById('pause').style.backgroundColor = '#fff';
+            document.getElementById('start').style.backgroundColor = '#fff';
+            document.getElementById('pause').style.color = '#3281EB';
+            document.getElementById('start').style.color = '#3281EB';
+        }
+
+        function plus(){
+            var a = (document.getElementById('milleseconde').innerHTML *1)+1;
+            var b = (document.getElementById('seconde_chro').innerHTML *1);
+            var c = (document.getElementById('minute_chro').innerHTML *1);
+            var d = (document.getElementById('heure_chro').innerHTML *1);
+            if(a>100){
+                a=0;
+                if(b>59){
+                    b=0;
+                    if(c>59){
+                    c=0;
+                    if(d<9){
+                        document.getElementById('minute_chro').innerHTML = '0' + (c+1);
+                    }
+                    else{
+                        document.getElementById('minute_chro').innerHTML = (c+1);
+                    }
+                    }
+                    if(c<9){
+                        document.getElementById('seconde_chro').innerHTML = '0' + (c+1);
+                    }
+                    else{
+                        document.getElementById('seconde_chro').innerHTML = (c+1);
+                    }
+                    if(c<9){
+                        document.getElementById('minute_chro').innerHTML = '0' + (d+1);
+                    }
+                    else{
+                        document.getElementById('minute_chro').innerHTML = (d+1);
+                    }
+                }
+                if(b<9){
+                    document.getElementById('seconde_chro').innerHTML = '0' + (b+1);
+                }
+                else{
+                    document.getElementById('seconde_chro').innerHTML = (b+1);
+                }
+            }
+            if(a<10){
+                document.getElementById('milleseconde').innerHTML = '0' + a;
+            }
+            else{
+                document.getElementById('milleseconde').innerHTML = a;
+            }
+        }
+
+        function plus_lera(){
+            var a = (document.getElementById('seconde').innerHTML *1)+1;
+            var b = (document.getElementById('minute').innerHTML *1);
+            var c = (document.getElementById('heure').innerHTML *1);
+            if(a>60){
+                a=0;
+                if(b>59){
+                    b=0;
+                    if(c<9){
+                        document.getElementById('heure').innerHTML = '0' + (c+1);
+                    }
+                    else{
+                        document.getElementById('heure').innerHTML = (c+1);
+                    }
+                }
+                if(b<9){
+                    document.getElementById('minute').innerHTML = '0' + (b+1);
+                }
+                else{
+                    document.getElementById('minute').innerHTML = (b+1);
+                }
+            }
+            if(a<10){
+                document.getElementById('seconde').innerHTML = '0' + a;
+            }
+            else{
+                document.getElementById('seconde').innerHTML = a;
+            }
+        }
+    </script>
+</body>
+</html>
